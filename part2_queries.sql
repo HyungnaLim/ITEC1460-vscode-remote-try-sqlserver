@@ -161,3 +161,22 @@ ORDER BY
 GO
 
 -- Step 9: Create Your Own Custom Query
+-- enrolled student count and average number grade by course
+SELECT c.CourseID, c.CourseName, COUNT(e.StudentID) AS EnrolledStudents,
+AVG(CASE 
+    WHEN e.Grade = 'A' THEN 4.0
+    WHEN e.Grade = 'A-' THEN 3.7
+    WHEN e.Grade = 'B+' THEN 3.3
+    WHEN e.Grade = 'B' THEN 3.0
+    WHEN e.Grade = 'B-' THEN 2.7
+    WHEN e.Grade = 'C+' THEN 2.3
+    WHEN e.Grade = 'C' THEN 2.0
+    WHEN e.Grade = 'C-' THEN 1.7
+    WHEN e.Grade = 'D+' THEN 1.3
+    WHEN e.Grade = 'D' THEN 1.0
+    WHEN e.Grade = 'F' THEN 0.0
+    ELSE NULL
+    END) AS AverageGrade
+FROM Enrollments e
+JOIN Courses c ON e.CourseID = c.CourseID
+GROUP BY c.CourseID, c.CourseName
